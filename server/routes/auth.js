@@ -2,6 +2,7 @@ const express = require('express');
 const authRouter = express.Router();
 const bcrypt = require('bcryptjs');
 const db = require('../db');
+const jwt = require('jsonwebtoken');
 
 //Sign Up
 authRouter.post("/api/signup", async (req, res) => {
@@ -42,44 +43,47 @@ authRouter.post("/api/signup", async (req, res) => {
 });
 
 //Sigh In
+// Sign In route
 authRouter.post("/api/signin", async (req, res) => {
     try {
-        const { email, password } = req.body;
-
-        // Check if the user exists
-        db.query("SELECT * FROM users WHERE email = ?", [email], async (err, results) => {
-            if (err) {
-                return res.status(500).json({ error: "Database error", details: err.message });
-            }
-            if (results.length === 0) {
-                return res.status(401).json({ message: "Invalid email or password" });
-            }
-
-            const user = results[0];
-
-            // Compare the provided password with the stored hash
-            const isPasswordValid = await bcrypt.compare(password, user.password);
-            
-            if (!isPasswordValid) {
-                return res.status(401).json({ message: "Invalid email or password" });
-            }
-
-            const token = jwt.sign(
-                { id: user.id },
-                process.env.JWT_SECRET,
-                { expiresIn: '1h' }
-            );
-
-            // Return user data (excluding password for security)
-            res.json({
-                id: user.id,
-                name: user.name,
-                email: user.email
-            });
+      const { email, password } = req.body;
+  
+      // Check if the user exists
+      db.query("SELECT * FROM users WHERE email = ?", [email], async (err, results) => {
+        if (err) {
+          return res.status(500).json({ error: "Database error", details: err.message });
+        }
+        if (results.length === 0) {
+          return res.status(401).json({ message: "Invalid email or password" });
+        }
+  
+        const user = results[0];
+  
+        // Compare the provided password with the stored hash
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+        
+        if (!isPasswordValid) {
+          return res.status(401).json({ message: "Invalid email or password" });
+        }
+  
+        const token = jwt.sign(
+          { id: user.id },
+          process.env.JWT_SECRET,
+          { expiresIn: '1h' }
+        );
+  
+        // ✅ Corrected Response (with token)
+        res.json({
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          token: token // <-- Important Fix here
         });
+      });
     } catch (e) {
-        res.status(500).json({ error: e.message });
+      res.status(500).json({ error: e.message });
     }
-});
+  });
+  
 
 module.exports = authRouter;
