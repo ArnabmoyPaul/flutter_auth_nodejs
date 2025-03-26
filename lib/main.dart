@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_node_auth/providers/user_provider.dart';
-import 'package:flutter_node_auth/screens/home_screen.dart';
+import 'package:flutter_node_auth/screens/dashboard_screen.dart';
+//import 'package:flutter_node_auth/screens/home_screen.dart';
 import 'package:flutter_node_auth/screens/signup_screen.dart';
 import 'package:flutter_node_auth/services/auth_services.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +39,7 @@ class _MyAppState extends State<MyApp> {
       home:
           Provider.of<UserProvider>(context).user.token.isEmpty
               ? const SignupScreen()
-              : const HomeScreen(),
+              : const DashboardScreen(),
     );
   }
 }

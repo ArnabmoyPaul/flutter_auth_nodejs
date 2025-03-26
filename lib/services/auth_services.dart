@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_node_auth/providers/user_provider.dart';
+import 'package:flutter_node_auth/screens/dashboard_screen.dart';
 import 'package:flutter_node_auth/screens/home_screen.dart';
 import 'package:flutter_node_auth/screens/signup_screen.dart';
 import 'package:flutter_node_auth/utils/constants.dart';
@@ -69,7 +70,7 @@ class AuthService {
           await prefs.setString('x-auth-token', responseData['token']);
 
           navigator.pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => const HomeScreen()),
+            MaterialPageRoute(builder: (context) => const DashboardScreen()),
             (route) => false,
           );
         },
