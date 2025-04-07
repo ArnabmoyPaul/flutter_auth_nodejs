@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_node_auth/screens/send_report_screen.dart';
 import 'package:flutter_node_auth/screens/signup_screen.dart';
 import 'package:flutter_node_auth/screens/tasks_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,15 +36,23 @@ class DashboardScreen extends StatelessWidget {
           _buildListItem(Icons.phone_android, 'Send Reports', Colors.green, () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const TasksScreen()),
+              MaterialPageRoute(builder: (context) => TasksScreen()),
             );
           }),
 
           _buildListItem(
             Icons.computer,
-            'Send Reports to Server (1)',
+            'Send Reports to Server (1)', // You can dynamically update this count if needed
             Colors.green,
-            () {},
+            () {
+              // Navigate to SendReportScreen
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SendReportScreen(),
+                ),
+              );
+            },
           ),
           _buildListItem(
             Icons.comment,

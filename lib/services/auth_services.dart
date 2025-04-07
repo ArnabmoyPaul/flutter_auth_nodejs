@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_node_auth/providers/user_provider.dart';
 import 'package:flutter_node_auth/screens/dashboard_screen.dart';
-import 'package:flutter_node_auth/screens/home_screen.dart';
 import 'package:flutter_node_auth/screens/signup_screen.dart';
 import 'package:flutter_node_auth/utils/constants.dart';
 import 'package:flutter_node_auth/utils/utils.dart';
@@ -126,5 +125,25 @@ class AuthService {
       MaterialPageRoute(builder: (context) => const SignupScreen()),
       (route) => false,
     );
+  }
+
+  Future<void> sendReport({required Map<String, dynamic> reportData}) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('x-auth-token');
+
+    final response = await http.post(
+      Uri.parse('${Constants.uri}/api/reports'),
+      headers: {
+        'Content-Type': 'application/json',
+        'x-auth-token': token ?? '',
+      },
+      body: jsonEncode(reportData),
+    );
+
+    if (response.statusCode != 200) {
+      throw Exception(
+        'Failed to send report: ${jsonDecode(response.body)['error'] ?? 'Unknown error'}',
+      );
+    }
   }
 }

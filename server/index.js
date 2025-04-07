@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const db = require('./db');
 const authRouter = require('./routes/auth');
 
+const cors = require('cors');
 
 
 //const mongoose = require('mongoose');
@@ -17,6 +18,11 @@ const app = express();
 
 app.use(express.json());
 app.use(authRouter);
+app.use(cors({
+  origin: 'http://your-flutter-app-ip:port',
+  credentials: true
+}));
+
 
 //const DB = "mongodb+srv://ampaul136:asdfg@1210@cluster0.vwil6.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";
 

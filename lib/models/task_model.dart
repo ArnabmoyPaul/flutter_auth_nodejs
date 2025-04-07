@@ -1,12 +1,16 @@
 // task_model.dart
-class MajorTask {
+class SubTask {
+  final String id;
   final String title;
-  final List<String> subTasks;
-  //bool isExpanded;
+  bool isSelected;
 
-  MajorTask({
-    required this.title,
-    required this.subTasks,
-    // this.isExpanded = false,
-  });
+  SubTask({required this.id, required this.title, this.isSelected = false});
+}
+
+class MajorTask {
+  final String id;
+  final String title;
+  final List<SubTask> subTasks;
+
+  MajorTask({required this.id, required this.title, required this.subTasks});
 }
