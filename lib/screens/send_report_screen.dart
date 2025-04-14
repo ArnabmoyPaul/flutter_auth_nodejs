@@ -13,6 +13,7 @@ class SendReportScreen extends StatefulWidget {
 class _SendReportScreenState extends State<SendReportScreen> {
   List<String> majorTask = [];
   List<String> subTasks = [];
+  String shelterCode = 'Not selected';
 
   @override
   void initState() {
@@ -26,6 +27,9 @@ class _SendReportScreenState extends State<SendReportScreen> {
     setState(() {
       majorTask = prefs.getStringList('majorTask') ?? [];
       subTasks = prefs.getStringList('subTasks') ?? [];
+      shelterCode =
+          prefs.getString('selectedShelterCode') ??
+          'Not selected'; //  This fetches the stored shelter code
     });
   }
 
@@ -38,6 +42,10 @@ class _SendReportScreenState extends State<SendReportScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Text(
+              'Shelter Code: $shelterCode',
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
             // Show major task title
             Text(
               'Major Task: ${majorTask.isNotEmpty ? majorTask[0] : "No task assigned"}',

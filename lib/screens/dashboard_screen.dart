@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_node_auth/screens/send_report_screen.dart';
+import 'package:flutter_node_auth/screens/shelter_code_screen.dart';
 import 'package:flutter_node_auth/screens/signup_screen.dart';
-import 'package:flutter_node_auth/screens/tasks_screen.dart';
+//import 'package:flutter_node_auth/screens/tasks_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -36,7 +37,9 @@ class DashboardScreen extends StatelessWidget {
           _buildListItem(Icons.phone_android, 'Send Reports', Colors.green, () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => TasksScreen()),
+              MaterialPageRoute(
+                builder: (context) => const ShelterCodeScreen(),
+              ),
             );
           }),
 
